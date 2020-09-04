@@ -14,31 +14,22 @@ class FASTQRecord:
         pass
 
 class FASTQReader:
-    def __init__(self, filename: str):
-        self._file = gz.open(filename)
-
-    def __enter__(self):
-        return self
-    
-    def __exit__(self, exc_type, exc_value, exc_traceback):
-        self.close()
-
-    def close(self):
-        self._file.close()
+    def __init__(self, file):
+        self._file = file
 
     def __iter__(self):
         return self
 
     def __next__(self) -> FASTQRecord:
         try:
-            name = next(self._file)
+            name = next(self._file)[:-1]
         except StopIteration:
             raise StopIteration
 
         try:
-            sequence = next(self._file)
-            plus = next(self._file)
-            quality = next(self._file)
+            sequence = next(self._file)[:-1]
+            plus = next(self._file)[:-1]
+            quality = next(self._file)[:-1]
         except StopIteration:
             raise FASTQError("Incomplete FASTQ file")
 
@@ -56,20 +47,11 @@ class PairedFASTQRecord:
 
 class PairedFASTQReader:
 
-    def __init__(self, read1_filename: str, read2_filename: str):
-        self._reader1 = FASTQReader(read1_filename)
-        self._reader2 = FASTQReader(read2_filename)
+    def __init__(self, read1_file, read2_file):
+        self._reader1 = FASTQReader(read1_file)
+        self._reader2 = FASTQReader(read2_file)
         self._zipped_reader = zip_longest(self._reader1, self._reader2)
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, exc_traceback):
-        self.close()
-
-    def close(self):
-        self._reader1.close()
-        self._reader2.close()
 
     def __iter__(self):
         return self
