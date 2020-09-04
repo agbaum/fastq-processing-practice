@@ -9,9 +9,13 @@ class FASTQRecord:
         self.sequence = sequence
         self.quality = quality
 
-    def to_string(self):
-        # TODO
-        pass
+    def __str__(self):
+        s = (self.name + "\n"
+             + self.sequence + "\n" 
+             + "+\n" 
+             + self.quality + "\n"
+        )
+        return (s)
 
 class FASTQReader:
     def __init__(self, file):
