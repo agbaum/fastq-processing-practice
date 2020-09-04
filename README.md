@@ -1,1 +1,1 @@
-fastq-processing-practice
+Just a project to practice OOP in python.
