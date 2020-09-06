@@ -1,3 +1,11 @@
+'''Tools for working with FASTQ files.
+
+Contains data structures for paired and single fastq records,
+and iterators for reading through paired and unparied fastq files.
+
+'''
+
+
 import gzip as gz
 import io
 from itertools import zip_longest
@@ -29,7 +37,7 @@ class FASTQRecord:
 
 class FASTQReader:
 
-    '''Iterates through a fastq file, returning records'''
+    '''Iterates through a fastq file, returning records.'''
 
     def __init__(self, file: io.TextIOBase):
         self._file = file
