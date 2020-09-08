@@ -7,6 +7,8 @@ import numpy as np
 
 class PairedStatsCalculator(ABC):
 
+    '''Abstract Class for calculators of statistics on paired FASTQ records.'''
+
     def __init__(self):
         pass
 
@@ -18,11 +20,19 @@ class PairedStatsCalculator(ABC):
         return(pd.concat([stats1, stats2], keys = [1, 2]))
     
     @ abstractmethod
-    def _calc_single_stats(self):
+    def _calc_single_stats(self, record: fastq_reader.FASTQRecord) -> pd.Series:
         pass
 
+class PairedStatsAgregator():
+
+    def __init__(self, calculators = List[PairedStatsCalculator]):
+        if not calculators:
+            raise ValueError("Empty calculators list.")
+        self._calculators = calculators
 
 class SequenceMatcher(PairedStatsCalculator):
+
+    '''Matches read sequences to patterns'''
 
     def __init__(self, patterns: List[str]):
         if not patterns:
@@ -40,3 +50,9 @@ class SequenceMatcher(PairedStatsCalculator):
     def _calc_single_stats(self, record: fastq_reader.FASTQRecord) -> pd.Series:
         return self._query(record.sequence)
             
+class QualityAverager(PairedStatsCalculator):
+
+    '''Averages the per-base quality'''
+
+    def _calc_single_stats(self, record: fastq_reader.FASTQRecord) -> pd.Series:
+        return pd.Series(np.mean(record.quality), index = ["avg_qual"])
