@@ -6,4 +6,4 @@ class csv_writer:
         self._output_file = output_file
 
     def output_stats(self, stats: pd.DataFrame):
-        stats.to_csv(self._output_file))
+        stats.to_csv(self._output_file)
