@@ -25,6 +25,8 @@ class PairedStatsCalculator(ABC):
 
 class PairedStatsAgregator():
 
+    '''Aggregator for multiple stats collectors over paired FASTQ files'''
+
     def __init__(self, calculators = List[PairedStatsCalculator]):
         if not calculators:
             raise ValueError("Empty calculators list.")
@@ -41,9 +43,7 @@ class PairedStatsAgregator():
         for record in reader:
             stats.append(self._single_read_stats(record))
 
-        return(pd.DataFrame(stats))
-        
-
+        return(pd.DataFrame(stats)) 
 
 class SequenceMatcher(PairedStatsCalculator):
 
