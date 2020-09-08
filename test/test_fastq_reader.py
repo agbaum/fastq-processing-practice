@@ -71,7 +71,7 @@ class TestPairedFASTQ(unittest.TestCase):
             record2 = next(reader2)
 
             with self.assertRaises(fastq_reader.FASTQError):
-                paired = fastq_reader.PairedFASTQRecord(record1, record2)
+                fastq_reader.PairedFASTQRecord(record1, record2)
 
 class TestPairedFASTQReader(unittest.TestCase):
 
@@ -99,7 +99,7 @@ class TestPairedFASTQReader(unittest.TestCase):
         with io.StringIO(read1) as file1, io.StringIO(read2) as file2:
             paired_reader = fastq_reader.PairedFASTQReader(file1, file2)
 
-            paired_record = next(paired_reader)
+            next(paired_reader)
             with self.assertRaises(fastq_reader.FASTQError):
                 next(paired_reader)
             
