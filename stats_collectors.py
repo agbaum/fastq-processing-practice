@@ -30,6 +30,21 @@ class PairedStatsAgregator():
             raise ValueError("Empty calculators list.")
         self._calculators = calculators
 
+    def _single_read_stats(self, 
+                           record: fastq_reader.PairedFASTQRecord) -> pd.Series:
+        stats = [calc.calc_paired_stats(record) for calc in self._calculators]
+        return pd.concat(stats)
+
+    def aggregate_stats(self, 
+                        reader: fastq_reader.PairedFASTQReader) -> pd.DataFrame:
+        stats = []
+        for record in reader:
+            stats.append(self._single_read_stats(record))
+
+        return(pd.DataFrame(stats))
+        
+
+
 class SequenceMatcher(PairedStatsCalculator):
 
     '''Matches read sequences to patterns'''
