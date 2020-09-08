@@ -2,16 +2,16 @@ import unittest
 import fastq_reader
 import io
 
-sequence1_R1 = "TESTA:1 R1\nAGCT\n+\nABCD\n"
-sequence2_R1 = "TESTA:2 R1\nTCGA\n+\nEFGH\n"
+sequence1_R1 = "TESTA:1 R1\nAGCT\n+\n1234\n"
+sequence2_R1 = "TESTA:2 R1\nTCGA\n+\n5678\n"
 
-sequence1_R2 = "TESTA:1 R2\nCCGT\n+\nABCE\n"
-sequence2_R2 = "TESTA:2 R2\nGTCT\n+\nFGHE\n"
+sequence1_R2 = "TESTA:1 R2\nCCGT\n+\n1483\n"
+sequence2_R2 = "TESTA:2 R2\nGTCT\n+\n0968\n"
 
 class TestFASTQRecord(unittest.TestCase):
 
     def test_to_string(self):
-        record = fastq_reader.FASTQRecord("TESTA:1 R1", "AGCT", "ABCD")
+        record = fastq_reader.FASTQRecord("TESTA:1 R1", "AGCT", "1234")
         self.assertEqual(str(record), sequence1_R1)
 
 class TestFASTQReader(unittest.TestCase):

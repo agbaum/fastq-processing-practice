@@ -23,7 +23,7 @@ class TestSequenceMatcher(unittest.TestCase):
         self.assertEqual(matches[2], 1)
         
     def test_single(self):
-        record = fastq_reader.FASTQRecord("test1", "abcd", "efgh")
+        record = fastq_reader.FASTQRecord("test1", "abcd", "0678")
         matches = self.seq_matcher._calc_single_stats(record)
         
         self.assertEqual(matches[0], 0)
@@ -31,8 +31,8 @@ class TestSequenceMatcher(unittest.TestCase):
         self.assertEqual(matches[2], 1)
 
     def test_paired(self):
-        record1 = fastq_reader.FASTQRecord("test1", "abcd", "efgh")
-        record2 = fastq_reader.FASTQRecord("test1", "bxdxyz", "efghj")
+        record1 = fastq_reader.FASTQRecord("test1", "abcd", "0678")
+        record2 = fastq_reader.FASTQRecord("test1", "bxdxyz", "98543")
         paired_record = fastq_reader.PairedFASTQRecord(record1, record2)
 
         stats = self.seq_matcher.calc_paired_stats(paired_record)

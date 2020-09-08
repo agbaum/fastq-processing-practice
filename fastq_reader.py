@@ -5,12 +5,27 @@ and iterators for reading through paired and unparied fastq files.
 
 '''
 
-
 import gzip as gz
 import io
 from itertools import zip_longest
+from typing import List
 
 class FASTQError(Exception): pass
+
+def qual_str2num(qual_str: str) -> List[int]:
+    '''Converts a base quality string into a list of ints.
+    
+    Currently just takes single digits, 
+    which isn't how actual fastq quality strings work.
+    This is simpler as practice implimentation for now.
+    
+    '''
+    return [int(c) for c in qual_str]
+
+def qual_num2str(qual_list: List[int]) -> str:
+    '''Converts a base quality string into a list of ints.'''
+    return ''.join([str(i) for i in qual_list])
+
 
 class FASTQRecord:
 
@@ -25,13 +40,13 @@ class FASTQRecord:
     def __init__(self, name: str, sequence: str, quality: str):
         self.name = name
         self.sequence = sequence
-        self.quality = quality
+        self.quality = qual_str2num(quality)
 
     def __str__(self):
         s = (self.name + "\n"
              + self.sequence + "\n" 
              + "+\n" 
-             + self.quality + "\n"
+             + qual_num2str(self.quality) + "\n"
         )
         return (s)
 
