@@ -1,3 +1,5 @@
+'''Tools for ways of outputting the results of FASTQ stats collection'''
+
 import pandas as pd
 
 class csv_writer:
