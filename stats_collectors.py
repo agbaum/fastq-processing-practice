@@ -12,7 +12,26 @@ import fastq_reader
 import pandas as pd
 import numpy as np
 
-class PairedStatsAgregator():
+
+class PairedStatsCalculator(ABC):
+
+    '''Abstract Class for calculators of statistics on paired FASTQ records.'''
+
+    def __init__(self):
+        pass
+
+    def calc_paired_stats(self, 
+                          record: fastq_reader.PairedFASTQRecord) -> pd.Series:
+        stats1 = self._calc_single_stats(record.read1)
+        stats2 = self._calc_single_stats(record.read2)
+
+        return(pd.concat([stats1, stats2], keys = [1, 2]))
+    
+    @ abstractmethod
+    def _calc_single_stats(self, record: fastq_reader.FASTQRecord) -> pd.Series:
+        pass
+
+class PairedStatsAggregator():
 
     '''Aggregator for multiple stats collectors over paired FASTQ files'''
 
@@ -34,24 +53,6 @@ class PairedStatsAgregator():
 
         return(pd.DataFrame(stats)) 
 
-
-class PairedStatsCalculator(ABC):
-
-    '''Abstract Class for calculators of statistics on paired FASTQ records.'''
-
-    def __init__(self):
-        pass
-
-    def calc_paired_stats(self, 
-                          record: fastq_reader.PairedFASTQRecord) -> pd.Series:
-        stats1 = self._calc_single_stats(record.read1)
-        stats2 = self._calc_single_stats(record.read2)
-
-        return(pd.concat([stats1, stats2], keys = [1, 2]))
-    
-    @ abstractmethod
-    def _calc_single_stats(self, record: fastq_reader.FASTQRecord) -> pd.Series:
-        pass
 
 class SequenceMatcher(PairedStatsCalculator):
 

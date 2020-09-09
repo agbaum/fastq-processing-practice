@@ -6,12 +6,12 @@ import stats_output
 
 class AnalysisRunner:
 
-    def __init__(self, input_file_paths: List[str], 
-                 stats_aggregator: stats_collectors.PairedStatsAgregator,
+    def __init__(self, read1_path: str, read2_path: str,
+                 stats: List[stats_collectors.PairedStatsCalculator],
                  outputters: List[stats_output.OutputWriter]):
-        self._read1_path = input_file_paths[0]
-        self._read2_path = input_file_paths[1]
-        self._stats_aggregator = stats_aggregator
+        self._read1_path = read1_path
+        self._read2_path = read2_path
+        self._stats_aggregator = stats_collectors.PairedStatsAggregator(stats)
         self._outputters = outputters
 
     def run_analysis(self):
