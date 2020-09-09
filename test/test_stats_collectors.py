@@ -1,8 +1,8 @@
 import unittest
-import stats_collectors
 import numpy as np
-import fastq_reader
 import io
+from  fastq_stats import fastq_reader 
+from fastq_stats import stats_collectors as stats
 
 record1_R1 = fastq_reader.FASTQRecord("test1 R1", "abcd", "0678")
 record1_R2 = fastq_reader.FASTQRecord("test1 R2", "bxdxyz", "98543")
@@ -16,11 +16,11 @@ class TestSequenceMatcher(unittest.TestCase):
 
     def setUp(self):
         self.patterns = [r"abc", r"xyz", r"b.d"]
-        self.seq_matcher = stats_collectors.SequenceMatcher(self.patterns)
+        self.seq_matcher = stats.SequenceMatcher(self.patterns)
 
     def test_no_blank(self):
         with self.assertRaises(ValueError):
-            stats_collectors.SequenceMatcher([])
+            stats.SequenceMatcher([])
 
     def test_query(self):
         matches = self.seq_matcher._query("abcd")
@@ -50,7 +50,7 @@ class TestSequenceMatcher(unittest.TestCase):
 class TestQualityAverager(unittest.TestCase):
 
     def setUp(self):
-        self.qual_averager = stats_collectors.QualityAverager()
+        self.qual_averager = stats.QualityAverager()
 
     def test_paired(self):
         qual = self.qual_averager.calc_paired_stats(paired_record1)
@@ -62,10 +62,10 @@ class TestAggregator(unittest.TestCase):
 
     def setUp(self):
         patterns = [r"abc", r"xyz", r"b.d"]
-        seq_matcher = stats_collectors.SequenceMatcher(patterns)
-        qual_averager = stats_collectors.QualityAverager()
-        aggregator = stats_collectors.PairedStatsAgregator([seq_matcher,
-                                                                 qual_averager])
+        seq_matcher = stats.SequenceMatcher(patterns)
+        qual_averager = stats.QualityAverager()
+        aggregator = stats.PairedStatsAggregator([seq_matcher,
+                                                 qual_averager])
         sequence1_R1 = str(record1_R1)
         sequence1_R2 = str(record1_R2)
         sequence2_R1 = str(record2_R1)

@@ -1,6 +1,7 @@
 import unittest
-import fastq_reader
 import io
+from fastq_stats import fastq_reader
+
 
 sequence1_R1 = "TESTA:1 R1\nAGCT\n+\n1234\n"
 sequence2_R1 = "TESTA:2 R1\nTCGA\n+\n5678\n"

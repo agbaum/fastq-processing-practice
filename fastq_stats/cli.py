@@ -1,7 +1,7 @@
 import argparse
-import stats_collectors
-import stats_output
-import run_analysis
+from . import stats_collectors
+from . import stats_output
+from . import run_analysis
 
 
 class CLI:

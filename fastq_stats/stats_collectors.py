@@ -8,7 +8,7 @@ and an aggregator for collecting the stats over a whole file.
 from typing import List, Dict, Iterable
 from abc import ABC, abstractmethod
 import re
-import fastq_reader
+from . import fastq_reader
 import pandas as pd
 import numpy as np
 
