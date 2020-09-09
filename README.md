@@ -1,4 +1,5 @@
-# A project for practicing OOP in python.
+# FASTQ Pracitce
+A project for practicing OOP in python.
 
 The general idea of the project is that reads through paired fastq files, compiles various statistics on them, and then outputs those statstics in various ways (plots, tables, etc.).
 
