@@ -2,9 +2,9 @@
 
 from typing import List
 import argparse
-import fastq_reader
-import stats_collectors
-import stats_output
+from . import fastq_reader
+from . import stats_collectors
+from . import stats_output
 
 
 class AnalysisRunner:
@@ -42,19 +42,20 @@ class CLI:
     
     def __init__(self):
         self.parser = argparse.ArgumentParser(
-            description = "Collect stats on FASTQ files.")
+            description = "Collect stats on FASTQ files. " 
+                          + "At least one STATISTIC and one OUTPUT required.")
         self.parser.add_argument("input_r1",
                                  help = "FASTQ file for read 1.")
         self.parser.add_argument("input_r2",
                                  help = "FASTQ file for read 1.")
         self.parser.add_argument("--seq", nargs = "+",
-                                 help = "Sequences to match against.")
+                                 help = "STATISTIC: Sequences to match against.")
         self.parser.add_argument(
             "--quality", 
-            action="store_false",
-            help = "Option to report average per-base quality scores.")
+            action="store_true",
+            help = "STATISTIC: Average per-base quality scores.")
         self.parser.add_argument('--csv',
-                                 help = "Output csv file path.")
+                                 help = "OUTPUT: Csv file path.")
 
     def _setup_runner(self):
         stats = []
@@ -71,8 +72,8 @@ class CLI:
         if not outputs:
             raise ValueError("No outputs specified.")
 
-        self.runner = AnalysisRunner(self.args.read1_path,
-                                     self.args.read2_path,
+        self.runner = AnalysisRunner(self.args.input_r1,
+                                     self.args.input_r2,
                                      stats, outputs)
 
     def main(self, args=None):
