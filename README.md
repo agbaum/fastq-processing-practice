@@ -10,11 +10,10 @@ A tool for reading through paired fastq files, compiling various statistics on t
 * run_analysis.py - A class for running a whole analysis (read -> stats -> output) and a command line interface for using it.
 
 ## Example
-test_out.csv can be generated with:
+test_out.csv and test_plot.png can be generated with:
 
-    python -m fastq_stats --seq AG TCC --quality --csv .\test\test_data\test_out.csv .\test\test_data\test_R1.fastq .\test\test_data\test_R2.fastq
+    python -m fastq_stats --seq AG TCC --quality --csv ./test/test_data/test_out.csv --hist ./test/test_data/test_plot.png ./test/test_data/test_R1.fastq ./test/test_data/test_R2.fastq
 
 # TODOs
-* Write plotting output
 * Figure out how/if to do test for outputs
 * Figure out integration/application level testing

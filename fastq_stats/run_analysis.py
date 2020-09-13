@@ -56,6 +56,8 @@ class CLI:
             help = "STATISTIC: Average per-base quality scores.")
         self.parser.add_argument('--csv',
                                  help = "OUTPUT: Csv file path.")
+        self.parser.add_argument('--hist',
+                                 help = "OUTPUT: Histograms file path.")
 
     def _setup_runner(self):
         stats = []
@@ -69,6 +71,8 @@ class CLI:
         outputs = []
         if self.args.csv:
             outputs.append(stats_output.CsvWriter(self.args.csv))
+        if self.args.hist:
+            outputs.append(stats_output.HistogramPlotter(self.args.hist))
         if not outputs:
             raise ValueError("No outputs specified.")
 
